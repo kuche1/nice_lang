@@ -7,7 +7,7 @@ class Ram:
         s.names = []
         s.values = []
         s.anon_var_ind = 0
-    def set_anon_var(s, value):
+    def set_anon_var(s, value):# add lnum as an argument ?
         name = s.ANON_VAR_FORMAT.format(num=s.anon_var_ind)
         s.anon_var_ind += 1
         s.create_var(name, value)
@@ -83,7 +83,6 @@ def parse_str(code, ram):
         else:
             ind = closest_dist
             sep = closest_sep
-            #print(f'{sep=}')
 
             block = code[:ind]
             code = code[ind+len(sep):]
@@ -140,8 +139,10 @@ def run_str(code):
     code,lnums = parse_str(code, ram)
 
     assert len(code) == len(lnums)
+    if len(lnums):
+        spaces = len(str(lnums[-1]))
     for lnum,token in zip(lnums,code):
-        print(lnum,token)
+        print('%{spaces}d %s'.format(spaces=spaces)%(lnum,token))
         
 def run_file(name):
     with open(name) as f:
